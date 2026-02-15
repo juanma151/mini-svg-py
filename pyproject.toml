@@ -5,16 +5,64 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mini-svg"
 version = "0.1.0"
-description = "Mini librería educativa para generar SVG con Python"
+description = "Educational SVG generation library for learning programming with Python."
 readme = "README.md"
-requires-python = ">=3.11"
-license = {text = "MIT"}
-authors = [{name="Juanma"}]
-keywords = ["svg", "education", "inkscape"]
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+authors = [
+  { name = "hagane" }
+]
+
+keywords = ["svg", "education", "graphics", "geometry", "teaching", "learning"]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Education",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent",
+  "Topic :: Education",
+  "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+  "Topic :: Software Development :: Libraries"
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ruff",
+  "black",
+  "mypy",
+  "build",
+  "twine"
+]
+
+[project.urls]
+Homepage = "https://github.com/juanma151/mini-svg"
+Repository = "https://github.com/juanma151/mini-svg"
+Issues = "https://github.com/juanma151/mini-svg/issues"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+packages = ["mini_svg"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = false
 
