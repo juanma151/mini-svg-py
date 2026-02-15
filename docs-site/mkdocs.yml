@@ -1,0 +1,68 @@
+site_name: mini-svg
+site_description: Educational SVG generation library for learning programming with Python.
+site_url: https://juanma151.github.io/mini-svg/
+repo_url: https://github.com/juanma151/mini-svg
+repo_name: juanma151/mini-svg
+
+theme:
+  name: material
+  language: en
+
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+
+nav:
+  - Home: index.md
+  - Levels:
+      - Progressive Structure: levels.md
+  - API Reference: api.md
+  - Examples: examples.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - attr_list
+  - def_list
+  - footnotes
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - ..
+          options:
+            show_root_heading: true
+            show_source: false
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            docstring_style: google
+            show_docstring_parameters: true
+            show_docstring_returns: true
+            show_docstring_examples: true
+
+docs_dir: docs
+site_dir: site
+
+watch:
+  - ..
+
+
