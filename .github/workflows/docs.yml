@@ -31,7 +31,7 @@ jobs:
 
       - name: Build documentation
         run: |
-          mkdocs build -f src/docs-site/mkdocs.yml
+          mkdocs build -f docs-site/mkdocs.yml
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
