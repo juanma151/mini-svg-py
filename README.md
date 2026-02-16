@@ -11,6 +11,8 @@ It is designed for classrooms and beginner-friendly workshops where students can
 
 Repository: https://github.com/juanma151/mini-svg
 
+Documentation: https://juanma151.github.io/mini-svg/ 
+
 ---
 
 ## Why SVG?

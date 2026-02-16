@@ -1,53 +1,56 @@
-name: Build and Deploy Docs
+name: Build and Deploy Docs (versioned)
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+    tags: [ "v*" ]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
-  build:
+  docs:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (full history for mike)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install docs dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs mkdocs-material mkdocstrings[python]
+          pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python mike
 
-      - name: Build documentation
+      - name: Configure git identity
         run: |
-          mkdocs build -f docs-site/mkdocs.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs-site/site
+      - name: Deploy docs with mike
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
+          # Determine version:
+          # - tag refs: refs/tags/v0.1.0 -> 0.1.0
+          # - main branch: deploy only "latest"
+          if [[ "$REF" == refs/tags/v* ]]; then
+            VERSION="${REF#refs/tags/v}"
+            echo "Deploying versioned docs: $VERSION"
+            cd docs-site
+            mike deploy --push --update-aliases "$VERSION" latest
+            mike set-default --push latest
+          else
+            echo "Deploying docs to alias: latest (from main)"
+            cd docs-site
+            mike deploy --push --update-aliases latest
+            mike set-default --push latest
+          fi

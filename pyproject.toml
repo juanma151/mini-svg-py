@@ -48,11 +48,13 @@ docs = [
   "mkdocs",
   "mkdocs-material",
   "mkdocstrings",
-  "mkdocstrings-python"
+  "mkdocstrings-python",
+  "mike"
 ]
 
 [project.urls]
-Homepage = "https://github.com/juanma151/mini-svg"
+Homepage = "https://juanma151.github.io/mini-svg/1.0.0"
+Documentation = "https://juanma151.github.io/mini-svg/1.0.0"
 Repository = "https://github.com/juanma151/mini-svg"
 Issues = "https://github.com/juanma151/mini-svg/issues"
 
