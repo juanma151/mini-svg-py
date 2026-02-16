@@ -40,10 +40,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Fetch gh-pages if it exists
           git fetch origin gh-pages:gh-pages || true
 
-          # If gh-pages exists, ensure local gh-pages is up to date
           if git show-ref --verify --quiet refs/heads/gh-pages; then
             git checkout gh-pages
             git pull --rebase origin gh-pages
@@ -61,12 +59,14 @@ jobs:
             VERSION="${REF#refs/tags/v}"
             echo "Deploying versioned docs: $VERSION"
 
-            mike deploy -b gh-pages --push --update-aliases "$VERSION" latest
-            mike set-default -b gh-pages --push latest
+            # Publish the numbered version and update the "stable" alias.
+            mike deploy -b gh-pages --push --update-aliases "$VERSION" stable
+            mike set-default -b gh-pages --push stable
           else
-            echo "Deploying docs to alias: latest (from main)"
+            echo "Deploying docs to alias: dev (from main)"
 
-            mike deploy -b gh-pages --push --update-aliases latest
-            mike set-default -b gh-pages --push latest
+            # Publish main branch docs under the "dev" alias (no numbered version).
+            mike deploy -b gh-pages --push --update-aliases dev
+            mike set-default -b gh-pages --push dev
           fi
 
