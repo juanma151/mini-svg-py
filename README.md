@@ -287,3 +287,4 @@ Suggested contributions:
 MIT.
 
 Make sure a `LICENSE` file is included before publishing to PyPI.
+
