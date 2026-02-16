@@ -39,10 +39,11 @@ jobs:
 
       - name: Inject docs version into pyproject.toml (no commit)
         env:
-          VERSION: ${{ github.ref_name }}
+          TAG_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          VERSION="${VERSION#v}"
+          VERSION="${TAG_NAME#v}"
+          export VERSION
           echo "Docs version: $VERSION"
 
           python - <<'PY'
@@ -60,8 +61,16 @@ jobs:
           print("Injected __DOCS_VERSION__ into pyproject.toml")
           PY
 
-      - name: Build (sdist + wheel)
+      - name: Build (sdist + wheel) with strict tag version
+        env:
+          TAG_NAME: ${{ github.ref_name }}
         run: |
+          set -euo pipefail
+          VERSION="${TAG_NAME#v}"
+          echo "Building package version: $VERSION"
+
+          export SETUPTOOLS_SCM_PRETEND_VERSION="$VERSION"
+
           python -m build
           ls -lah dist
 
@@ -111,10 +120,11 @@ jobs:
 
       - name: Inject docs version into pyproject.toml (no commit)
         env:
-          VERSION: ${{ github.ref_name }}
+          TAG_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          VERSION="${VERSION#v}"
+          VERSION="${TAG_NAME#v}"
+          export VERSION
           echo "Docs version: $VERSION"
 
           python - <<'PY'
@@ -132,8 +142,16 @@ jobs:
           print("Injected __DOCS_VERSION__ into pyproject.toml")
           PY
 
-      - name: Build (sdist + wheel)
+      - name: Build (sdist + wheel) with strict tag version
+        env:
+          TAG_NAME: ${{ github.ref_name }}
         run: |
+          set -euo pipefail
+          VERSION="${TAG_NAME#v}"
+          echo "Building package version: $VERSION"
+
+          export SETUPTOOLS_SCM_PRETEND_VERSION="$VERSION"
+
           python -m build
           ls -lah dist
 
