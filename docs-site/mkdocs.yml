@@ -48,7 +48,7 @@ plugins:
       handlers:
         python:
           paths:
-            - ..
+            - ../src
           options:
             show_signature: true
             separate_signature: true
