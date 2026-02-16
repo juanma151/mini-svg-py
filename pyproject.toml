@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Educational SVG generation library for learning programming with Python."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 
 authors = [
   { name = "hagane" }
@@ -28,7 +28,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent",
   "Topic :: Education",
-  "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+  "Topic :: Multimedia :: Graphics",
   "Topic :: Software Development :: Libraries"
 ]
 
@@ -47,7 +47,8 @@ dev = [
 docs = [
   "mkdocs",
   "mkdocs-material",
-  "mkdocstrings[python]"
+  "mkdocstrings",
+  "mkdocstrings-python"
 ]
 
 [project.urls]
@@ -56,8 +57,8 @@ Repository = "https://github.com/juanma151/mini-svg"
 Issues = "https://github.com/juanma151/mini-svg/issues"
 
 [tool.setuptools]
-packages = ["mini_svg"]
 package-dir = {"" = "src"}
+packages = ["mini_svg"]
 
 [tool.ruff]
 line-length = 88

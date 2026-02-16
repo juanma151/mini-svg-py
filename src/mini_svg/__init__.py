@@ -37,6 +37,8 @@ See the documentation website and examples folder for full scripts.
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version as _pkg_version
+
 from .style import *  # noqa: F403
 from .basic import *  # noqa: F403
 from .intermediate import *  # noqa: F403
@@ -48,7 +50,16 @@ from . import advanced as minisvg_advanced
 from . import style as utils
 
 
+try:
+	__version__ = _pkg_version("mini-svg")
+except PackageNotFoundError:
+	# When running from source without installation (or weird environments)
+	__version__ = "0.0.0+local"
+
+
 __all__ = [
+	# version
+	"__version__",
 	# level modules
 	"minisvg_basic",
 	"minisvg_intermediate",
