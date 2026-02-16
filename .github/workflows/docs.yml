@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository (full history required for mike)
+      - name: Checkout repository (full history required)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -36,28 +36,37 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Fetch gh-pages branch (if exists)
+      - name: Prepare gh-pages branch (fetch + rebase)
         run: |
+          set -euo pipefail
+
+          # Fetch gh-pages if it exists
           git fetch origin gh-pages:gh-pages || true
+
+          # If gh-pages exists, ensure local gh-pages is up to date
+          if git show-ref --verify --quiet refs/heads/gh-pages; then
+            git checkout gh-pages
+            git pull --rebase origin gh-pages
+            git checkout -
+          fi
 
       - name: Deploy docs with mike
         env:
           REF: ${{ github.ref }}
         run: |
           set -euo pipefail
-
           cd docs-site
 
           if [[ "$REF" == refs/tags/v* ]]; then
             VERSION="${REF#refs/tags/v}"
             echo "Deploying versioned docs: $VERSION"
 
-            mike deploy -b gh-pages --push --rebase --update-aliases "$VERSION" latest
+            mike deploy -b gh-pages --push --update-aliases "$VERSION" latest
             mike set-default -b gh-pages --push latest
           else
             echo "Deploying docs to alias: latest (from main)"
 
-            mike deploy -b gh-pages --push --rebase --update-aliases latest
+            mike deploy -b gh-pages --push --update-aliases latest
             mike set-default -b gh-pages --push latest
           fi
 
