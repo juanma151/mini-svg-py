@@ -1,0 +1,158 @@
+name: Release (build + publish + versioned homepage)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-upload-testpypi:
+    name: Build and upload to TestPyPI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure this is an exact tag (strict)
+        run: |
+          set -euo pipefail
+          git describe --tags --exact-match >/dev/null 2>&1 || {
+            echo "ERROR: Not on an exact tag. Refusing to release."
+            exit 1
+          }
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Inject docs version into pyproject.toml (no commit)
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          VERSION="${REF#refs/tags/v}"
+          echo "Docs version: $VERSION"
+
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          version = os.environ["VERSION"]
+          path = Path("pyproject.toml")
+
+          s = path.read_text(encoding="utf-8")
+          if "__DOCS_VERSION__" not in s:
+            raise SystemExit("ERROR: __DOCS_VERSION__ placeholder not found in pyproject.toml")
+
+          path.write_text(s.replace("__DOCS_VERSION__", version), encoding="utf-8")
+          print("Injected __DOCS_VERSION__ into pyproject.toml")
+          PY
+        shell: bash
+        env:
+          VERSION: ${{ github.ref_name }}
+
+      - name: Build (sdist + wheel)
+        run: |
+          python -m build
+          ls -lah dist
+
+      - name: Twine check
+        run: |
+          twine check dist/*
+
+      - name: Upload to TestPyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TESTPYPI_API_TOKEN }}
+          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
+        run: |
+          twine upload dist/*
+
+  build-and-upload-pypi:
+    name: Build and upload to PyPI
+    needs: build-and-upload-testpypi
+    runs-on: ubuntu-latest
+
+    # Recommended: create an Environment named "pypi" in repo settings
+    # and require manual approval for safety.
+    environment:
+      name: pypi
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure this is an exact tag (strict)
+        run: |
+          set -euo pipefail
+          git describe --tags --exact-match >/dev/null 2>&1 || {
+            echo "ERROR: Not on an exact tag. Refusing to release."
+            exit 1
+          }
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Inject docs version into pyproject.toml (no commit)
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          VERSION="${REF#refs/tags/v}"
+          echo "Docs version: $VERSION"
+
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          version = os.environ["VERSION"]
+          path = Path("pyproject.toml")
+
+          s = path.read_text(encoding="utf-8")
+          if "__DOCS_VERSION__" not in s:
+            raise SystemExit("ERROR: __DOCS_VERSION__ placeholder not found in pyproject.toml")
+
+          path.write_text(s.replace("__DOCS_VERSION__", version), encoding="utf-8")
+          print("Injected __DOCS_VERSION__ into pyproject.toml")
+          PY
+        shell: bash
+        env:
+          VERSION: ${{ github.ref_name }}
+
+      - name: Build (sdist + wheel)
+        run: |
+          python -m build
+          ls -lah dist
+
+      - name: Twine check
+        run: |
+          twine check dist/*
+
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
+
