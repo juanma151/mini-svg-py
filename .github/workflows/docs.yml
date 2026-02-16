@@ -2,8 +2,10 @@ name: Build and Deploy Docs (versioned)
 
 on:
   push:
-    branches: [ main ]
-    tags: [ "v*" ]
+    branches:
+      - main
+    tags:
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -12,8 +14,9 @@ permissions:
 jobs:
   docs:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository (full history for mike)
+      - name: Checkout repository (full history required for mike)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -23,15 +26,19 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install docs dependencies
+      - name: Install documentation dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python mike
+          pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python mike ruff
 
       - name: Configure git identity
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch gh-pages branch (if exists)
+        run: |
+          git fetch origin gh-pages:gh-pages || true
 
       - name: Deploy docs with mike
         env:
@@ -39,18 +46,18 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Determine version:
-          # - tag refs: refs/tags/v0.1.0 -> 0.1.0
-          # - main branch: deploy only "latest"
+          cd docs-site
+
           if [[ "$REF" == refs/tags/v* ]]; then
             VERSION="${REF#refs/tags/v}"
             echo "Deploying versioned docs: $VERSION"
-            cd docs-site
-            mike deploy --push --update-aliases "$VERSION" latest
-            mike set-default --push latest
+
+            mike deploy -b gh-pages --push --rebase --update-aliases "$VERSION" latest
+            mike set-default -b gh-pages --push latest
           else
             echo "Deploying docs to alias: latest (from main)"
-            cd docs-site
-            mike deploy --push --update-aliases latest
-            mike set-default --push latest
+
+            mike deploy -b gh-pages --push --rebase --update-aliases latest
+            mike set-default -b gh-pages --push latest
           fi
+
