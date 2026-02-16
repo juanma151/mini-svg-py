@@ -1,14 +1,16 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=68", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
+
 
 [project]
 name = "mini-svg"
-version = "1.1.5"
+dynamic = ["version"]
 description = "Educational SVG generation library for learning programming with Python."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
+
 
 authors = [
   { name = "hagane" }
@@ -35,8 +37,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://juanma151.github.io/mini-svg/1.1.5"
-Documentation = "https://juanma151.github.io/mini-svg/1.1.5"
+Homepage = "https://juanma151.github.io/mini-svg/__DOCS_VERSION__/"
+Documentation = "https://juanma151.github.io/mini-svg/__DOCS_VERSION__/"
 Repository = "https://github.com/juanma151/mini-svg"
 Issues = "https://github.com/juanma151/mini-svg/issues"
 
@@ -74,4 +76,9 @@ target-version = ["py311"]
 [tool.mypy]
 python_version = "3.11"
 strict = false
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
+tag_regex = "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
 

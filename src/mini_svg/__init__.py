@@ -37,7 +37,7 @@ See the documentation website and examples folder for full scripts.
 
 from __future__ import annotations
 
-from importlib.metadata import PackageNotFoundError, version as _pkg_version
+from importlib.metadata import PackageNotFoundError, version
 
 from .style import *  # noqa: F403
 from .basic import *  # noqa: F403
@@ -51,10 +51,10 @@ from . import style as utils
 
 
 try:
-	__version__ = _pkg_version("mini-svg")
+	__version__ = version("mini-svg")
 except PackageNotFoundError:
 	# When running from source without installation (or weird environments)
-	__version__ = "0.0.0+local"
+	__version__ = "0.0.0"
 
 
 __all__ = [
