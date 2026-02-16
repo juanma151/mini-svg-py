@@ -30,12 +30,6 @@ Core SVG building blocks:
 - circle
 
 ::: mini_svg.basic
-    options:
-      show_root_heading: true
-      show_source: false
-      show_signature: true
-      show_signature_annotations: true
-      separate_signature: true
 
 ---
 
@@ -50,12 +44,6 @@ Builds on Level 1 and adds:
 - cubic_bezier
 
 ::: mini_svg.intermediate
-    options:
-      show_root_heading: true
-      show_source: false
-      show_signature: true
-      show_signature_annotations: true
-      separate_signature: true
 
 ---
 
@@ -66,10 +54,5 @@ Builds on Level 2 and adds:
 - bezier_path_cubic
 
 ::: mini_svg.advanced
-    options:
-      show_root_heading: true
-      show_source: false
-      show_signature: true
-      show_signature_annotations: true
-      separate_signature: true
+
 

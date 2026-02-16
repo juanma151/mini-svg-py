@@ -30,6 +30,7 @@ nav:
   - Levels:
       - Progressive Structure: levels.md
   - API Reference: api.md
+  - Utils: utils.md
   - Examples: examples.md
 
 markdown_extensions:
@@ -49,15 +50,16 @@ plugins:
           paths:
             - ..
           options:
+            show_signature: true
+            separate_signature: true
+            show_signature_annotations: true
             show_root_heading: true
             show_source: false
-            show_signature: true
-            show_signature_annotations: true
-            separate_signature: true
-            docstring_style: google
-            show_docstring_parameters: true
-            show_docstring_returns: true
-            show_docstring_examples: true
+            signature_crossrefs: true
+            docstring_style: numpy
+            docstring_section_style: list
+            docstring_options:
+              ignore_init_summary: true
 
 docs_dir: docs
 site_dir: site

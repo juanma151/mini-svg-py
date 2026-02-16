@@ -11,23 +11,26 @@ emulate zsh \
 # Run from the project root:
 #   ./scripts/generate_examples.zsh
 
-typeset ROOT_DIR EXAMPLES_DIR OUT_DIR
+typeset ROOT_DIR SRC_DIR EXAMPLES_DIR OUT_DIR
 
 typeset -gx PYTHONPATH
 
 ROOT_DIR=${(%):-'%x'}
 ROOT_DIR=${ROOT_DIR:a}
-ROOT_DIR=${ROOT_DIR:h:h}
+ROOT_DIR=${ROOT_DIR:h:h:h}
 
-EXAMPLES_DIR=${ROOT_DIR}/examples
+SRC_DIR=${ROOT_DIR}/src
+
+EXAMPLES_DIR=${SRC_DIR}/examples
 
 OUT_DIR=${EXAMPLES_DIR}/generated_svgs
 
-PYTHONPATH=${ROOT_DIR}${PYTHONPATH:+:${PYTHONPATH}}
+PYTHONPATH=${SRC_DIR}/src:${SRC_DIR}${PYTHONPATH:+:${PYTHONPATH}}
 
-# print - "\n======> PYTHONPATH"
+# typeset -p1 SRC_DIR EXAMPLES_DIR OUT_DIR
+
 # print -l - "${(@As.:.)PYTHONPATH}"
-
+# exit 0
 
 ##
 mkdir -p "$OUT_DIR"
@@ -52,14 +55,19 @@ fi
 typeset -i ok=0
 typeset -i fail=0
 
-cd "${EXAMPLES_DIR}"
+cd "${SRC_DIR}"
 
 for f in "${(@)files}"; do
 	print -r -- "----"
 	print -r -- "Running: ${f#$ROOT_DIR/}"
 
 	# Use system python by default; allow override via $PYTHON.
-	"${PYTHON:-python}" "$f" || true
+	if { "${PYTHON:-python}" "$f" 1> /dev/null }; then
+		ok=$(( ok + 1 ))
+	else
+		fail=$(( fail + 1 ))
+	 	print - "Failed: ${f#${ROOT_DIR}/}"
+	fi
 done
 
 print -r -- "----"

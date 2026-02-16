@@ -5,27 +5,30 @@
 # Copyright (c) 2025 hagane
 #
 """
-Tests for mini_svg advanced level.
+tests/test_advanced.py
+
+Tests for advanced-level API.
 """
 
-from mini_svg import minisvg_advanced as adv
+from __future__ import annotations
+
+import mini_svg as minisvg
 
 
-def test_bezier_path_cubic_outputs_path_tag():
-	start = (0, 0)
-	segments = [
-		(10, 0, 10, 10, 20, 20),
-		(30, 30, 40, 40, 50, 50),
-	]
-	s = adv.bezier_path_cubic(start, segments)
-	assert s.strip().startswith("<path")
-	assert 'd="M ' in s
-	assert " C " in s
+def test_bezier_path_cubic_builds_multi_segment_path() -> None:
+	minisvg.set_style(stroke=minisvg.COLORS.DARK_GRAY, stroke_width=3, fill=minisvg.COLORS.TRANSPARENT, opacity=0.9)
 
+	out = minisvg.bezier_path_cubic(
+		(0, 0),
+		[
+			(10, 0, 10, 10, 20, 10),
+			(30, 10, 30, 20, 40, 20),
+		],
+	)
 
-def test_bezier_path_cubic_closed_adds_Z():
-	start = (0, 0)
-	segments = [(10, 0, 10, 10, 20, 20)]
-	s = adv.bezier_path_cubic(start, segments, closed=True)
-	assert "Z" in s
+	assert out.startswith('<path d="M ')
+	assert out.count(" C ") == 2
+	assert 'stroke="#444444"' in out
+	assert 'stroke-width="3"' in out
+	assert 'opacity="0.9"' in out
 

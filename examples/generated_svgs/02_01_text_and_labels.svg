@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="250" viewBox="0 0 700 250">
+<text x="350" y="40" font-size="22" fill="#000000" text-anchor="middle" opacity="1">mini-svg: text labels</text>
+<circle cx="150" cy="140" r="60" stroke="#000000" stroke-width="1" fill="#ffd23f" opacity="1" />
+<text x="150" y="150" font-size="32" fill="#000000" text-anchor="middle" opacity="1">A</text>
+<circle cx="350" cy="140" r="60" stroke="#000000" stroke-width="1" fill="#ffd23f" opacity="1" />
+<text x="350" y="150" font-size="32" fill="#000000" text-anchor="middle" opacity="1">B</text>
+<circle cx="550" cy="140" r="60" stroke="#000000" stroke-width="1" fill="#ffd23f" opacity="1" />
+<text x="550" y="150" font-size="32" fill="#000000" text-anchor="middle" opacity="1">C</text>
+</svg>

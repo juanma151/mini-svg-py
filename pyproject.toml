@@ -57,6 +57,7 @@ Issues = "https://github.com/juanma151/mini-svg/issues"
 
 [tool.setuptools]
 packages = ["mini_svg"]
+package-dir = {"" = "src"}
 
 [tool.ruff]
 line-length = 88

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300">
+<line x1="40" y1="150" x2="560" y2="40" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="62" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="84" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="106" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="128" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="150" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="172" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="194" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="216" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="238" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+<line x1="40" y1="150" x2="560" y2="260" stroke="#000000" stroke-width="1" fill="none" opacity="1" />
+</svg>

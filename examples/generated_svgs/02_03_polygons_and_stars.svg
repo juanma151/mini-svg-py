@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320">
+<text x="400" y="30" font-size="20" fill="#000000" text-anchor="middle" opacity="1">Polygons and Stars (bounding boxes)</text>
+<rect x="40" y="70" width="160" height="160" stroke="#cccccc" stroke-width="1" fill="none" opacity="1" />
+<rect x="240" y="70" width="160" height="160" stroke="#cccccc" stroke-width="1" fill="none" opacity="1" />
+<rect x="440" y="70" width="160" height="160" stroke="#cccccc" stroke-width="1" fill="none" opacity="1" />
+<rect x="640" y="70" width="160" height="160" stroke="#cccccc" stroke-width="1" fill="none" opacity="1" />
+<polygon points="120,70 189.282032,190 50.717968,190" stroke="#000000" stroke-width="1" fill="#ffd23f" opacity="1" />
+<polygon points="360,80.717968 400,150 360,219.282032 280,219.282032 240,150 280,80.717968" stroke="#000000" stroke-width="1" fill="#2ecc71" opacity="1" />
+<polygon points="520,70 543.51141,117.63932 596.084521,125.27864 558.042261,162.36068 567.02282,214.72136 520,190 472.97718,214.72136 481.957739,162.36068 443.915479,125.27864 496.48859,117.63932" stroke="#000000" stroke-width="1" fill="#2d7dff" opacity="1" />
+<polygon points="747.361611,74.82459 738.916526,129.356235 792.504623,116.190539 747.97335,148.778657 795.17541,177.361611 740.643765,168.916526 753.809461,222.504623 721.221343,177.97335 692.638389,225.17541 701.083474,170.643765 647.495377,183.809461 692.02665,151.221343 644.82459,122.638389 699.356235,131.083474 686.190539,77.495377 718.778657,122.02665" stroke="#000000" stroke-width="1" fill="#ff00ff" opacity="1" />
+</svg>
